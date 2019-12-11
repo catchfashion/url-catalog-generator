@@ -1,0 +1,54 @@
+{
+  "name": "url-catalog-generator",
+  "version": "0.0.3",
+  "description": "Generate Typescript URL Parser / Builder from defined schema",
+  "main": "./dst/index.js",
+  "typings": "./dst/index.d.ts",
+  "engines": {
+    "node": "^10.16.0",
+    "npm": "^6.10.0"
+  },
+  "bin": {
+    "url-catalog": "./dst/cli.js"
+  },
+  "scripts": {
+    "clean": "rm -Rf dst",
+    "prebuild": "npm run clean",
+    "build": "check-engine && tsc -d",
+    "lint": "tslint -p ./tsconfig.test.json",
+    "prepare": "npm run build",
+    "pretest": "npm run build -- -p ./tsconfig.test.json",
+    "test": "mocha dst/**/__test__/**/*_spec.js"
+  },
+  "files": [
+    "dst"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/breath103/url-catalog.git"
+  },
+  "author": "Kurt Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/breath103/url-catalog/issues"
+  },
+  "homepage": "https://github.com/breath103/url-catalog#readme",
+  "devDependencies": {
+    "@types/chai": "4.1.7",
+    "@types/mocha": "2.2.48",
+    "@types/node": "^8.10.54",
+    "chai": "4.2.0",
+    "check-engine": "1.8.1",
+    "mocha": "3.5.3",
+    "np": "3.1.0",
+    "tslint": "5.18.0",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@types/common-tags": "^1.8.0",
+    "@types/debug": "^4.1.5",
+    "commander": "^3.0.2",
+    "common-tags": "^1.8.0",
+    "debug": "^4.1.1"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "CATCH",
+  "urls": [
+    {
+      "name": "Home",
+      "description": "Home page",
+      "pathTemplate": "/:gender",
+      "params": {
+        "path": { "gender": { "type": "string", "enum": ["men", "women"] } }
+      }
+    },
+    {
+      "name": "Hashtags",
+      "description": "Hashtags page",
+      "pathTemplate": "/:gender/hashtags",
+      "params": {
+        "path": { "gender": { "type": "string", "enum": ["men", "women"] } }
+      }
+    },
+    {
+      "name": "Hashtag Show",
+      "description": "Hashtag show page",
+      "pathTemplate": "/:gender/hashtags/:hashtagId",
+      "params": {
+        "path": {
+          "gender": { "type": "string", "enum": ["men", "women"] },
+          "hashtagId": { "type": "string" }
+        }
+      }
+    },
+    {
+      "name": "Promotions",
+      "description": "Promotions page",
+      "pathTemplate": "/:gender/promotions",
+      "params": {
+        "path": { "gender": { "type": "string", "enum": ["men", "women"] } }
+      }
+    },
+
+    {
+      "name": "How To Cashback",
+      "description": "HowTo Cashback page",
+      "pathTemplate": "/how-to/cashback"
+    },
+    {
+      "name": "About Cashback",
+      "description": "about Cashback page",
+      "pathTemplate": "/about/cashback"
+    },
+
+    {
+      "name": "Product Show",
+      "description": "Product Detail Page",
+      "pathTemplate": "/view/:productId",
+      "params": {
+        "path": {
+          "productId": { "type": "string" }
+        }
+      }
+    }
+  ]
+}
