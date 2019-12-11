@@ -11,7 +11,8 @@ const deleteFolderRecursive = function(target: string) {
       const curPath = path.join(target, file);
       if (fs.lstatSync(curPath).isDirectory()) { // recurse
         deleteFolderRecursive(curPath);
-      } else { // delete file
+      } else {
+        // delete file
         fs.unlinkSync(curPath);
       }
     });
@@ -34,8 +35,8 @@ program
 
     const urlFolder = `${generateDestFolder}/urls`;
 
-    // Copy URL Schema
-    fs.copyFileSync("./src/url_schema.ts", `${generateDestFolder}/url_schema.ts`);
+    // // Copy URL Schema
+    // fs.copyFileSync("./src/url_schema.ts", `${generateDestFolder}/url_schema.ts`);
 
     // Generate files from schema
     fs.mkdirSync(urlFolder);
@@ -71,12 +72,15 @@ program
         }).join("\n")}
       }` : `{}`;
 
-      fs.writeFileSync(`${urlFolder}/${className}.ts`, `import { URLSchema } from "../url_schema";
+      fs.writeFileSync(`${urlFolder}/${className}.ts`, `import { URLSchema } from "url-catalog-generator";
+
+type QueryParams = ${queryParamTSInterface};
+type PathParams = ${pathParamTSInterface};
+
+type AllParams = QueryParams & PathParams;
+
 export class ${className} {
-  public static schema = new URLSchema<
-    ${pathParamTSInterface},
-    ${queryParamTSInterface}
-  >({
+  public static schema = new URLSchema<QueryParams, PathParams>({
     name: "${url.name}",
     description: "${url.description}",
     pathTemplate: "${url.pathTemplate}",
@@ -88,10 +92,11 @@ export class ${className} {
     return params && new this(params);
   }
 
-  constructor(public readonly params:
-    ${pathParamTSInterface}
-    & ${queryParamTSInterface}
-  ) {}
+  public static serialize(params: AllParams) {
+    return new this(params).toString();
+  }
+
+  constructor(public readonly params: AllParams) {}
 
   public toString() {
     return ${className}.schema.serialize(this.params);
@@ -100,20 +105,18 @@ export class ${className} {
 `.split("\n").map(l => l.slice("".length)).join("\n"));
       return {
         className,
-      }
+      };
     });
 
     fs.writeFileSync(`${urlFolder}/index.ts`,
     `
 ${urlFiles.map((url) => `import { ${url.className} } from "./${url.className}";`).join("\n")}
-      export const URLs = [
-        ${urlFiles.map((url) => {
-          return `${url.className},`;
-        }).join("\n")}
-      ]
+
+      export const URLs = {
+        ${urlFiles.map((url) => `${url.className},`).join("\n")}
+      } as const;
     `
     );
-
   });
 
 program.parse(process.argv);

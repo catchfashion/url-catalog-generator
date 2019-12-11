@@ -23,10 +23,6 @@ type QueryParamSchema = (
   | { type: "number", optional?: boolean, enum?: number[] }
 );
 
-import * as debug from "debug";
-
-const logger = debug("url-catalog:URLSchema");
-
 export interface URLSchemaConstructorOption<PathParams, QueryParams> {
   name: string;
   description: string;
@@ -43,7 +39,9 @@ export class URLSchema<
 > {
   public readonly pathComponents: PathComponent[];
 
-  constructor(private readonly options: URLSchemaConstructorOption<PathParams, QueryParams>) {
+  constructor(
+    public readonly options: URLSchemaConstructorOption<PathParams, QueryParams>
+  ) {
     this.pathComponents = [];
 
     const regex = /\:\w+/;
@@ -84,8 +82,6 @@ export class URLSchema<
   public parse(url: string) {
     let [path, query] = url.split("?");
     const output: Partial<PathParams & QueryParams> = {};
-
-    logger("#parse %O", path, query);
 
     try {
       // Check Path validity
@@ -142,10 +138,8 @@ export class URLSchema<
           });
       }
     } catch (e) {
-      logger("#parse Error %O", e);
       return null;
     }
-    logger("#parse output: %O", output);
 
     return output as (PathParams & QueryParams);
   }
@@ -171,5 +165,23 @@ export class URLSchema<
       .join("&") : "";
 
     return `${path}${query.length > 0 ? `?${query}` : ``}`;
+  }
+
+  // tslint:disable-next-line
+  private __pathToRegexp: string | null = null;
+
+  public toPathToRegexp() {
+    if (!this.__pathToRegexp) {
+      this.__pathToRegexp = this.pathComponents.map((c) => {
+        switch (c.type) {
+          case "const": {
+            return c.value;
+          } case "parameter": {
+            return `:${c.name}${c.schema.enum ? `(${c.schema.enum.join("|")})` : ""}`;
+          }
+        }
+      }).join("");
+    }
+    return this.__pathToRegexp;
   }
 }
