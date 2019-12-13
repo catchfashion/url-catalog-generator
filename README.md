@@ -1,4 +1,4 @@
-# url-catalog
+# @catchfashion/url-catalog-generator
 generates Typescript URL schemas that parse / serialize / support react-router.
 
 ## What's this for?
@@ -9,8 +9,9 @@ which could be used for
 - frontend routing, (react-router / path-to-regexp)
 - backend routing
 
+(schema.json)
 ```json
-const json = {
+{
   "name": "CATCH",
   "urls": [
     {
@@ -30,9 +31,14 @@ const json = {
       }
     },
   ]
-};
+}
 ```
-This JSON automatically generates below files  
+
+run  
+```
+url-catalog schema.json ./src
+```
+This would automatically generates below files  
 
 (urls/Category.ts)
 ```typescript
