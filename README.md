@@ -36,6 +36,7 @@ which could be used for
 
 run  
 ```
+npm install @catchfashion/url-catalog-generator
 url-catalog schema.json ./src
 ```
 This would automatically generates below files  
