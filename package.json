@@ -39,9 +39,8 @@
     "@types/node": "^8.10.54",
     "chai": "4.2.0",
     "check-engine": "1.8.1",
-    "mocha": "3.5.3",
-    "np": "3.1.0",
-    "tslint": "5.18.0",
+    "mocha": "^3.5.3",
+    "tslint": "^5.18.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {
