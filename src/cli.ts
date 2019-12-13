@@ -40,6 +40,10 @@ program
 
     // Generate files from schema
     fs.mkdirSync(urlFolder);
+
+    fs.copyFileSync(`${__dirname}/url_schema.js`, `${generateDestFolder}/url_schema.js`);
+    fs.copyFileSync(`${__dirname}/url_schema.d.ts`, `${generateDestFolder}/url_schema.d.ts`);
+
     const urlFiles = schema.urls.map(url => {
       console.log(`Generating ${url.name}`);
       const className = url.name.split(" ").join("");
@@ -72,7 +76,7 @@ program
         }).join("\n")}
       }` : `{}`;
 
-      fs.writeFileSync(`${urlFolder}/${className}.ts`, `import { URLSchema } from "url-catalog-generator";
+      fs.writeFileSync(`${urlFolder}/${className}.ts`, `import { URLSchema } from "../url_schema";
 
 type QueryParams = ${queryParamTSInterface};
 type PathParams = ${pathParamTSInterface};
