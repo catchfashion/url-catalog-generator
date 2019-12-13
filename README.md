@@ -2,12 +2,12 @@
 generates Typescript URL schemas that parse / serialize / support react-router.
 
 ## What's this for?
-Modern App / Web requires singular url schema 
-such as https://www.catchfashion.com/category/abcdef and catch://category/abcdef 
+Modern App / Web requires singular url schema  
+such as https://www.catchfashion.com/category/abcdef and catch://category/abcdef  
 for this purpose, url-catalog-generator suggest centralized way of managing url schema.  
-which could be used for 
-- frontend routing, (react-router / path-to-regexp) 
-- backend routing 
+which could be used for  
+- frontend routing, (react-router / path-to-regexp)
+- backend routing
 
 ```json
 const json = {
