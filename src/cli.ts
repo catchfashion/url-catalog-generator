@@ -81,10 +81,10 @@ program
 type QueryParams = ${queryParamTSInterface};
 type PathParams = ${pathParamTSInterface};
 
-type AllParams = QueryParams & PathParams;
+type AllParams = PathParams & QueryParams;
 
 export class ${className} {
-  public static schema = new URLSchema<QueryParams, PathParams>({
+  public static schema = new URLSchema<PathParams, QueryParams>({
     name: "${url.name}",
     description: "${url.description}",
     pathTemplate: "${url.pathTemplate}",
