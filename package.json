@@ -1,6 +1,6 @@
 {
   "name": "@catchfashion/url-catalog-generator",
-  "version": "2.0.0-0",
+  "version": "2.0.0",
   "description": "generates Typescript URL schemas that parse / serialize / support react-router.",
   "main": "./dst/index.js",
   "typings": "./dst/index.d.ts",
