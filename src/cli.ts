@@ -78,13 +78,15 @@ program
 
       fs.writeFileSync(`${urlFolder}/${className}.ts`, `import { URLSchema } from "../url_schema";
 
-type QueryParams = ${queryParamTSInterface};
-type PathParams = ${pathParamTSInterface};
 
-type AllParams = PathParams & QueryParams;
+export namespace ${className} {
+  export type QueryParams = ${queryParamTSInterface};
+  export type PathParams = ${pathParamTSInterface};
+  export type AllParams = PathParams & QueryParams;
+}
 
 export class ${className} {
-  public static schema = new URLSchema<PathParams, QueryParams>({
+  public static schema = new URLSchema<${className}.PathParams, ${className}.QueryParams>({
     name: "${url.name}",
     description: "${url.description}",
     pathTemplate: "${url.pathTemplate}",
@@ -96,11 +98,11 @@ export class ${className} {
     return params && new this(params);
   }
 
-  public static serialize(params: AllParams) {
+  public static serialize(params: ${className}.AllParams) {
     return new this(params).toString();
   }
 
-  constructor(public readonly params: AllParams) {}
+  constructor(public readonly params: ${className}.AllParams) {}
 
   public toString() {
     return ${className}.schema.serialize(this.params);
@@ -114,11 +116,7 @@ export class ${className} {
 
     fs.writeFileSync(`${urlFolder}/index.ts`,
     `
-${urlFiles.map((url) => `import { ${url.className} } from "./${url.className}";`).join("\n")}
-
-      export const URLs = {
-        ${urlFiles.map((url) => `${url.className},`).join("\n")}
-      } as const;
+${urlFiles.map((url) => `export * from "./${url.className}";`).join("\n")}
     `
     );
   });
