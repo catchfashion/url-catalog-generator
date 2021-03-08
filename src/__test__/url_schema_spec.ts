@@ -119,5 +119,26 @@ describe(URLSchema.name, () => {
 
       expect(urlSchema.parse("/men/view/12345/test")).to.be.eq(null);
     });
+
+    it("should parse based on enum if it exists", () => {
+      const urlSchema = new URLSchema<{
+        gender: "men" | "women",
+      }, {}>({
+        name: "Gender Enum Template",
+        description: "Gender Enum Template",
+        pathTemplate: "/:gender",
+        params: {
+          path: {
+            gender: { type: "string", enum: ["men", "women"] },
+          },
+        }
+      });
+
+      expect(urlSchema.parse("/men")).to.be.deep.eq({ gender: "men" });
+
+      expect(urlSchema.parse("/women")).to.be.deep.eq({ gender: "women" });
+
+      expect(urlSchema.parse("/all")).to.be.null;
+    });
   });
 });
