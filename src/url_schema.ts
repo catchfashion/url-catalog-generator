@@ -111,15 +111,10 @@ export class URLSchema<
               }
               case "string": {
                 const decoded = decodeURIComponent(potentialPart);
-                if (pathComponent.schema?.enum) {
-                    if (pathComponent.schema.enum.find((value) => value === decoded)) {
-                      (output as any)[pathComponent.name] = decoded;
-                    } else {
-                      throw new Error(`${pathComponent.name} should include one of [${pathComponent.schema.enum.join(", ]")}]`)
-                    }
-                } else {
-                  (output as any)[pathComponent.name] = decoded;
+                if (pathComponent.schema?.enum && !pathComponent.schema.enum.find((value) => value === decoded)) {
+                  throw new Error(`${pathComponent.name} should include one of [${pathComponent.schema.enum.join(", ")}]`);
                 }
+                (output as any)[pathComponent.name] = decoded;
                 break;
               }
             }
