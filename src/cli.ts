@@ -102,7 +102,7 @@ export class ${className} {
     return new this(params).toString();
   }
 
-  constructor(public readonly params: ${className}.AllParams) {}
+  constructor(public params: ${className}.AllParams) {}
 
   public toString() {
     return ${className}.schema.serialize(this.params);
